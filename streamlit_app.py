@@ -14,7 +14,7 @@ def main():
     page_options = ["Find similar items",
                     "Customer Recommendations"]
     
-    st.sidebar.image('LOGO.jpg')
+#     st.sidebar.image('LOGO.jpg')
     st.sidebar.info(sidebar_header)
    
     
