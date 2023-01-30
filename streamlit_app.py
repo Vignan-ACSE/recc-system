@@ -9,13 +9,14 @@ def main():
 
     st.set_page_config(layout="wide", initial_sidebar_state='expanded')
     
-    sidebar_header = '''This is a demo to illustrate a recommender system that finds similar items to a given clothing article or recommend items for a customer using 2 different approaches:'''
+    sidebar_header = '''This is a recommender system that finds similar items to a given clothing article or recommend items for a customer using 2 different approaches:'''
     
     page_options = ["Find similar items",
                     "Customer Recommendations"]
     
+     st.sidebar.image('LOGO.jpg')
     st.sidebar.info(sidebar_header)
-    st.sidebar.image('LOGO.jpg')
+   
     
     page_selection = st.sidebar.radio("Try", page_options)
     articles_df = pd.read_csv('articles.csv')
