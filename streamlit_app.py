@@ -11,8 +11,8 @@ def main():
     
     sidebar_header = '''This is a recommender system that finds similar items to a given clothing article or recommend items for a customer using 2 different approaches:'''
     
-    page_options = ["Find similar items",
-                    "Customer Recommendations"]
+    page_options = ["Reccomend from similar items",
+                    "Recommendations based on customer purchase history"]
     
 #     st.sidebar.image('LOGO.jpg')
     st.sidebar.info(sidebar_header)
@@ -36,7 +36,7 @@ def main():
 #########################################################################################
 #########################################################################################
 
-    if page_selection == "Find similar items":
+    if page_selection == "Reccomend from similar items":
 
         articles_rcmnds = pd.read_csv('results/articles_rcmnds.csv')
 
@@ -117,12 +117,12 @@ def main():
             
 #########################################################################################
 #########################################################################################
-    if page_selection == "Customer Recommendations":
+    if page_selection == "Recommendations based on customer purchase history":
         
         customers_rcmnds = pd.read_csv('results/customers_rcmnds.csv')
         customers = customers_rcmnds.customer.unique()        
         
-        get_item = st.sidebar.button('Get Random Customer')
+        get_item = st.sidebar.button('Get Random Purchase History of Customer')
         if get_item:
             st.sidebar.write('#### Customer history')
 
