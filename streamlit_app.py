@@ -1,7 +1,6 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-from IPython.display import Image, display
 from funcs import *
 import streamlit.components.v1 as components
 from sklearn.feature_extraction.text import TfidfVectorizer
