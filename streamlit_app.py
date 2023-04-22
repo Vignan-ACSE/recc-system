@@ -289,8 +289,10 @@ def main():
 
             with st.container():     
                 for i, model, image_set, score_set, model_desc, detail_desc_set, features_set, rcmnds_set in zip(range(5), models, images, scores, model_descs, detail_descs, features, rcmnds):
-                    container = st.expander(model, expanded = model == 'Similar items based on image embeddings' or model == 'Similar items based on text embeddings')
+                    container = st.expander(model, expanded = True)
                     with container:
+                        if model == 'Similar items based on image embeddings':
+                            continue
                         cols = st.columns(7)
                         cols[0].write('###### Similarity Score')
                         cols[0].caption(model_desc)
