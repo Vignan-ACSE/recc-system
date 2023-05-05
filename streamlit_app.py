@@ -75,8 +75,11 @@ def main():
         get_item = st.sidebar.button('Get Random Item')
         
         if get_item:
-            
+            df = pd.read_csv('results/profiles.csv')
             rand_article = np.random.choice(articles)
+            # Retrieve the data for the chosen article
+            wanted_data = ['prod_name','product_type_name','colour_group_name','perceived_colour_value_name','department_name','index_group_name']
+            article_details = df.loc[df['article_id'] == rand_article,wanted_data]
             article_data = articles_rcmnds[articles_rcmnds.article_id == rand_article]
             rand_article_desc = articles_df[articles_df.article_id == rand_article].detail_desc.iloc[0]
             image_rcmnds, text_rcmnds, feature_rcmnds, tfrs_rcmnds, combined_rcmnds = get_rcmnds(article_data)
@@ -92,9 +95,16 @@ def main():
             st.sidebar.write('Article description')
             st.sidebar.caption(rand_article_desc)
 
-            with st.container():     
+            with st.container():
+                st.subheader('Product Details')
+                st.write('Product Name : '.format(article_details['prod_name']))
+                st.write('Product Category: ',article_details['product_type_name'])
+                st.write('Prefered Color by most of the users: ',article_details['colour_group_name'])
+                st.write('Perceived Colour: ',article_details['perceived_colour_value_name'])
+                st.write('Avaliable Under: ' + str(article_details['index_group_name'])+' Section')
+                st.write(article_details)     
                 for i, model, image_set, score_set, model_desc, detail_desc_set, features_set, rcmnds_set in zip(range(5), models, images, scores, model_descs, detail_descs, features, rcmnds):
-                    container = st.expander(model, expanded = model == 'Similar items based on image embeddings' or model == 'Similar items based on text embeddings')
+                    container = st.expander(model, expanded = True)
                     with container:
                         cols = st.columns(7)
                         cols[0].write('###### Similarity Score')
