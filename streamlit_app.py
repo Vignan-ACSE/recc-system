@@ -9,22 +9,6 @@ from sklearn.metrics.pairwise import cosine_similarity
 ##################################################################################################
 ##################################################################################################
 
-edata = pd.read_csv('./results/Electronics_data.csv')
-edata.fillna(edata.mean(), inplace=True)
-
-tfidf = TfidfVectorizer(stop_words='english')
-tfidf.fit(edata['Title'])
-
-tfidf_matrix = tfidf.transform(edata['Title'])
-cosine_similarities = cosine_similarity(tfidf_matrix)
-
-def get_similar_products(age, n=6):
-    filtered_df = edata[edata['Age'] == age]
-    indices = filtered_df.index
-    mean_cosine_similarities = cosine_similarities[indices].mean(axis=0)
-    top_indices = mean_cosine_similarities.argsort()[:-n-1:-1]
-    top_titles = edata.iloc[top_indices]['Title']
-    return top_titles
 
 def get_image_url(title):
     row = edata[edata['Title'] == title]
@@ -37,19 +21,21 @@ def get_image_url(title):
 def main():
 
     st.set_page_config(layout="wide", initial_sidebar_state='expanded')
-    
     sidebar_header = '''This is a recommender system that finds similar items to a given clothing article or recommend items for a customer using 2 different approaches:'''
     
     page_options = ["Reccomend from similar items",
                     "Recommendations based on customer purchase history",
                     "Profile Based",
                     "Product Captioning"]
-    
-#     st.sidebar.image('LOGO.jpg')
+    github_icon = 'GitHub_Logo.png'
+    st.sidebar.image('logo.jpeg')
     st.sidebar.info(sidebar_header)
-   
+
+    st.sidebar.image('git.png', width=120, output_format='png')
+    st.sidebar.write("[Link to the Repo](https://github.com/Vignan-ACSE/recc-system)", unsafe_allow_html=True)
     
     page_selection = st.sidebar.radio("Try", page_options)
+    
     articles_df = pd.read_csv('articles.csv')
     
     models = ['Similar items based on image embeddings', 
@@ -207,20 +193,6 @@ def main():
                             with col:
                                 st.caption('{}'.format(score))
                                 st.image(img, use_column_width=True)
-            
-            results = get_similar_products(rand_customer_age)
-
-            with st.container():
-                container = st.expander("Electronics Reccomendation based on Age", expanded=True)
-                with container:
-                    cols = st.columns(7)
-                    cols[0].write('###### Model Description')
-                    cols[0].caption('Text description embeddings are calculated using "universal-sentence-encoder" from TensorFlow Hub')
-                    for i,col in zip(results,cols[1:]):
-                        with col:
-                            image_url = get_image_url(i)
-                            st.image(str(image_url))
-                            st.caption(i)
 
 ######################################################################################################################  
 ######################################################################################################################
